@@ -1,783 +1,661 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muhamad Akbar Ramdani - Video Editor & Teknisi Komputer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-purple: #6a4c93;
-            --secondary-purple: #8b5fbf;
-            --primary-blue: #4a90e2;
-            --light-blue: #a3cfff;
-            --dark-bg: #0a0a0a;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --text-light: #ffffff;
-            --text-muted: #b0b0b0;
-            --gradient: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-        }
-
-        nav.scrolled {
-            background: rgba(10, 10, 10, 0.98);
-            padding: 0.5rem 0;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background: var(--gradient);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: var(--light-blue);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: var(--gradient);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff12"/><stop offset="100%" stop-color="%23000000"/></radialGradient></defs><rect width="100%" height="100%" fill="url(%23a)"/></svg>');
-            animation: float 20s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        .hero-content h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .hero-content .subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Sections */
-        .section {
-            padding: 100px 0;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--gradient);
-            border-radius: 2px;
-        }
-
-        /* Profile Card */
-        .profile-card {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 3rem;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            max-width: 500px;
-            margin: 0 auto 3rem;
-        }
-
-        .profile-avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: var(--gradient);
-            margin: 0 auto 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: white;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .profile-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: var(--light-blue);
-        }
-
-        .profile-info .job-title {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .profile-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: block;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* About Section */
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .about-content h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--light-blue);
-        }
-
-        .about-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-item {
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-10px);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--light-blue);
-            margin-bottom: 1rem;
-        }
-
-        /* Portfolio Section */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .portfolio-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .portfolio-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .portfolio-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .portfolio-card:hover img {
-            transform: scale(1.1);
-        }
-
-        .portfolio-info {
-            padding: 1.5rem;
-        }
-
-        .portfolio-info h4 {
-            margin-bottom: 0.5rem;
-            color: var(--light-blue);
-        }
-
-        .portfolio-date {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Favorites Section - MOBIL DENGAN GAMBAR */
-        .favorites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .favorite-card {
-            position: relative;
-            height: 350px;
-            border-radius: 20px;
-            overflow: hidden;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
-
-        .favorite-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        }
-.favorite-image {
-    width: 100%;
-    height: 70%;
-    object-fit: cover;
-    object-position: center; 
-    transition: transform 0.4s ease;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>FXJournal — Scalper Daily Log</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c14;--surface:#13162a;--surface2:#0f1120;--border:#1e2235;
+  --green:#00e5a0;--red:#ff4d6d;--yellow:#ffc850;--blue:#00b4d8;
+  --text:#e8eaf0;--muted:#888;--dim:#555;
 }
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mono','Courier New',monospace;font-size:14px;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#2a2d3e;border-radius:2px}
 
-        .favorite-card:hover .favorite-image {
-            transform: scale(1.05);
-        }
+/* Layout */
+#app{min-height:100vh;padding-bottom:80px}
+.header{background:var(--surface2);border-bottom:1px solid var(--border);padding:16px 16px 0;position:sticky;top:0;z-index:50}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.02em;color:#fff}
+.logo span{color:var(--green)}
+.logo-sub{font-size:11px;color:var(--dim);margin-top:2px}
+.pnl-display{text-align:right}
+.pnl-label{font-size:11px;color:var(--dim);margin-bottom:2px}
+.pnl-value{font-size:22px;font-weight:700;letter-spacing:-.02em}
 
-        .favorite-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(106, 76, 147, 0.95), rgba(74, 144, 226, 0.95));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            padding: 2rem;
-            text-align: center;
-        }
+/* Progress bar */
+.progress-wrap{margin-bottom:12px}
+.progress-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-bottom:5px}
+.progress-track{height:4px;background:var(--border);border-radius:2px;position:relative}
+.progress-bar{height:100%;border-radius:2px;transition:width .4s}
+.progress-marker{position:absolute;top:-3px;width:2px;height:10px;background:var(--red);border-radius:1px}
 
-        .favorite-card:hover .favorite-overlay {
-            opacity: 1;
-        }
+/* Stats */
+.stats-row{display:flex;gap:16px;padding-bottom:12px;font-size:12px}
+.stats-row span.label{color:var(--dim)}
 
-        .favorite-overlay h4 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
+/* Tabs */
+.tabs{display:flex;border-top:1px solid var(--border)}
+.tab-btn{flex:1;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:10px 0;font-size:13px;font-family:inherit;cursor:pointer;transition:all .2s;letter-spacing:.02em}
+.tab-btn.active{color:var(--green);border-bottom-color:var(--green)}
 
-        .favorite-overlay p {
-            font-size: 1rem;
-            line-height: 1.6;
-        }
+/* Page */
+.page{padding:16px;display:none}
+.page.active{display:block}
 
-        /* Contact Section */
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
+/* Day selector */
+.day-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px}
+.day-scroll::-webkit-scrollbar{height:0}
+.day-btn{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:all .2s}
+.day-btn.active{background:rgba(0,229,160,.1);border-color:var(--green);color:var(--green)}
 
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.card-title{font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: var(--card-bg);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease;
-        }
+/* Mood buttons */
+.mood-row{display:flex;gap:6px;flex-wrap:wrap}
+.mood-btn{background:#1a1d2e;border:1px solid var(--border);color:var(--muted);padding:5px 10px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;transition:all .15s}
+.mood-btn.active{background:rgba(0,229,160,.15);border-color:var(--green);color:var(--green)}
 
-        .contact-item:hover {
-            transform: translateX(10px);
-        }
+/* Stars */
+.stars{display:flex;gap:4px}
+.star-btn{background:none;border:none;font-size:20px;cursor:pointer;transition:transform .1s;line-height:1}
+.star-btn:hover{transform:scale(1.2)}
 
-        .contact-item i {
-            font-size: 1.5rem;
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
+/* Trade list */
+.trade-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.trade-header{display:flex;justify-content:space-between;align-items:flex-start}
+.trade-left .pair{font-weight:600;color:#fff;font-size:14px}
+.trade-meta{font-size:11px;color:var(--dim);margin-top:3px}
+.trade-note{font-size:11px;color:#666;margin-top:4px;font-style:italic}
+.trade-right{text-align:right}
+.trade-pnl{font-size:18px;font-weight:700;letter-spacing:-.02em}
+.trade-actions{display:flex;gap:6px;margin-top:6px;justify-content:flex-end}
+.trade-prices{display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--dim);padding-top:8px;border-top:1px solid #1a1d2e;flex-wrap:wrap}
+.trade-prices b{color:#ccc}
 
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
+/* Pill badges */
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;margin-left:6px}
+.pill-buy{background:rgba(0,229,160,.15);color:var(--green)}
+.pill-sell{background:rgba(255,77,109,.15);color:var(--red)}
+.pill-win{background:rgba(0,229,160,.15);color:var(--green)}
+.pill-loss{background:rgba(255,77,109,.15);color:var(--red)}
+.pill-be{background:rgba(255,200,80,.15);color:var(--yellow)}
 
-        .particle {
-            position: absolute;
-            background: var(--gradient);
-            border-radius: 50%;
-            animation: float-particle 25s infinite linear;
-        }
+/* Buttons */
+.btn-primary{background:var(--green);color:var(--bg);border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;letter-spacing:.04em;transition:opacity .2s}
+.btn-primary:hover{opacity:.85}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;transition:all .2s}
+.btn-ghost:hover{border-color:var(--red);color:var(--red)}
+.btn-add{background:var(--green);color:var(--bg);border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer}
+.btn-danger{background:var(--red);color:#fff;border:none;padding:12px;border-radius:8px;font-weight:600;font-size:13px;font-family:inherit;cursor:pointer;flex:1}
 
-        @keyframes float-particle {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
+/* Checklist */
+.check-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #13162a;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.check-box{width:18px;height:18px;border-radius:5px;border:2px solid #2a2d3e;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.check-box.checked{border-color:var(--green);background:var(--green)}
+.check-tick{font-size:11px;color:var(--bg);font-weight:900;display:none}
+.check-box.checked .check-tick{display:block}
+.check-label{font-size:13px;color:var(--muted);transition:all .15s}
+.check-item.checked .check-label{color:#ccc;text-decoration:line-through}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .about-grid, .contact-content { grid-template-columns: 1fr; gap: 2rem; }
-            .section { padding: 60px 1rem; }
-            .favorites-grid { grid-template-columns: 1fr; }
-        }
+/* Inputs */
+input,select,textarea{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:8px 12px;font-family:inherit;font-size:13px;width:100%;outline:none;transition:border .2s;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--green)}
+select option{background:var(--surface2)}
+textarea{resize:none}
+.field-label{font-size:11px;color:var(--dim);margin-bottom:5px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{margin-bottom:0}
 
-        /* Scroll Progress */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 4px;
-            background: var(--gradient);
-            z-index: 1001;
-            transition: width 0.1s ease;
-        }
-    </style>
+/* Daily notes */
+.notes-area{width:100%}
+
+/* Summary */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.stat-box .label{font-size:11px;color:var(--dim);margin-bottom:4px}
+.stat-box .value{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.status-box{border-radius:8px;padding:12px 14px;margin-bottom:12px}
+.day-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1a1d2e}
+.day-row:last-child{border-bottom:none}
+.day-row .name{font-size:13px;color:#ccc}
+.day-row .info{font-size:11px;color:var(--dim);margin-top:2px}
+.day-row .pnl{font-size:16px;font-weight:700}
+
+/* Overlay / Sheet */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.overlay.open{display:flex}
+.sheet{background:#0f1120;border-radius:20px 20px 0 0;padding:22px 18px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;border-top:1px solid var(--border);animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.sheet-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.sheet-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800}
+.sheet-close{background:none;border:none;color:var(--dim);font-size:22px;cursor:pointer;line-height:1}
+.sheet-fields{display:flex;flex-direction:column;gap:12px}
+
+/* Empty state */
+.empty{text-align:center;padding:28px 0;color:#444;font-size:13px}
+
+/* PnL total row */
+.pnl-total-row{display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--border);margin-top:10px;padding-top:10px}
+
+/* Trades header */
+.trades-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+
+/* Confirm modal */
+.confirm-text{color:#666;font-size:13px;margin-bottom:20px;line-height:1.6}
+.confirm-btns{display:flex;gap:10px}
+.confirm-btns .btn-ghost{flex:1;padding:12px;text-align:center}
+
+@media(min-width:480px){
+  .header,.page{max-width:480px;margin:0 auto}
+  .header{left:50%;transform:translateX(-50%);width:100%}
+}
+</style>
 </head>
 <body>
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress"></div>
+<div id="app">
 
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="logo">FX<span>Journal</span></div>
+        <div class="logo-sub">Scalper · London & Tokyo · Moderat</div>
+      </div>
+      <div class="pnl-display">
+        <div class="pnl-label">P&L Minggu Ini</div>
+        <div class="pnl-value" id="total-pnl-header">0.00%</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-labels"><span>Target: +7.5%</span><span>Max Loss: -4%</span></div>
+      <div class="progress-track">
+        <div class="progress-marker" id="loss-marker"></div>
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div><span class="label">Trade </span><span id="stat-total">0</span></div>
+      <div><span class="label">WR </span><span id="stat-wr">0%</span></div>
+      <div><span class="label">W </span><span id="stat-w" style="color:var(--green)">0</span></div>
+      <div><span class="label">L </span><span id="stat-l" style="color:var(--red)">0</span></div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('journal')">📒 Jurnal</button>
+      <button class="tab-btn" onclick="switchTab('summary')">📊 Ringkasan</button>
+    </div>
+  </div>
 
-    <!-- Navigation -->
-    <nav id="nav">
-        <div class="nav-container">
-            <div class="logo">AKBAR RAMDANI</div>
-            <ul class="nav-links">
-                <li><a href="#home">Beranda</a></li>
-                <li><a href="#profile">Profil</a></li>
-                <li><a href="#about">Tentang</a></li>
-                <li><a href="#portfolio">Portofolio</a></li>
-                <li><a href="#favorites">Favorit</a></li>
-                <li><a href="#contact">Kontak</a></li>
-            </ul>
+  <!-- JOURNAL PAGE -->
+  <div class="page active" id="page-journal">
+    <div class="day-scroll" id="day-selector"></div>
+
+    <!-- Mood & Discipline -->
+    <div class="card">
+      <div class="card-title">Kondisi Hari Ini</div>
+      <div style="margin-bottom:14px">
+        <div class="field-label">Mood Trading</div>
+        <div class="mood-row" id="mood-row"></div>
+      </div>
+      <div>
+        <div class="field-label">Disiplin (<span id="disc-val">3</span>/5)</div>
+        <div class="stars" id="stars-row"></div>
+      </div>
+    </div>
+
+    <!-- Trades -->
+    <div class="card">
+      <div class="trades-header">
+        <div class="card-title" style="margin:0">Trade <span id="day-name-label">Senin</span> (<span id="trade-count">0</span>)</div>
+        <button class="btn-add" onclick="openTradeForm()">+ Tambah</button>
+      </div>
+      <div id="trade-list"></div>
+      <div class="pnl-total-row" id="daily-pnl-row" style="display:none">
+        <span style="color:var(--dim)">Total P&L</span>
+        <span id="daily-pnl-val" style="font-weight:700"></span>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card">
+      <div class="card-title">Catatan Harian</div>
+      <textarea rows="3" class="notes-area" id="day-notes" placeholder="Apa yang berjalan baik? Apa yang perlu diperbaiki? Setup menarik?"></textarea>
+    </div>
+
+    <!-- Checklist -->
+    <div class="card">
+      <div class="card-title">Checklist Disiplin</div>
+      <div id="checklist"></div>
+    </div>
+  </div>
+
+  <!-- SUMMARY PAGE -->
+  <div class="page" id="page-summary">
+    <div class="card">
+      <div class="card-title">Ringkasan Minggu</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="label">Total P&L</div><div class="value" id="s-pnl">0.00%</div></div>
+        <div class="stat-box"><div class="label">Win Rate</div><div class="value" id="s-wr">0%</div></div>
+        <div class="stat-box"><div class="label">Total Trade</div><div class="value" id="s-total">0</div></div>
+        <div class="stat-box"><div class="label">W / L</div><div class="value" id="s-wl">0 / 0</div></div>
+      </div>
+      <div class="status-box" id="status-box">
+        <div style="font-size:12px;color:#666;margin-bottom:4px">Status Target Mingguan</div>
+        <div id="status-text" style="font-size:14px;font-weight:600"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Breakdown Harian</div>
+      <div id="daily-breakdown"></div>
+    </div>
+
+    <button class="btn-ghost" style="width:100%;padding:12px;text-align:center;font-size:13px;margin-top:4px" onclick="confirmReset()">🔄 Reset Jurnal Mingguan</button>
+  </div>
+</div>
+
+<!-- TRADE FORM OVERLAY -->
+<div class="overlay" id="trade-overlay" onclick="closeTradeForm(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-header">
+      <div class="sheet-title" id="form-title">Tambah Trade</div>
+      <button class="sheet-close" onclick="closeTradeForm()">✕</button>
+    </div>
+    <div class="sheet-fields">
+      <div class="grid-2">
+        <div><div class="field-label">Pair</div>
+          <select id="f-pair">
+            <option value="">Pilih pair</option>
+            <option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option>
+            <option>EUR/JPY</option><option>GBP/JPY</option><option>AUD/USD</option>
+            <option>USD/CHF</option><option>Lainnya</option>
+          </select>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Muhamad Akbar Ramdani</h1>
-            <p class="subtitle">Video Editor Profesional & Teknisi Komputer Bersertifikat | 17 Tahun</p>
-            <a href="#portfolio" class="cta-button">Jelajahi Portofolio</a>
+        <div><div class="field-label">Sesi</div>
+          <select id="f-session">
+            <option value="">Pilih sesi</option>
+            <option>Tokyo (07-09)</option><option>London (14-17)</option><option>Overlap (19-21)</option>
+          </select>
         </div>
-    </section>
-
-    <!-- Profile Section -->
-    <section id="profile" class="section">
-        <div class="profile-card">
-            <div class="profile-avatar">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="profile-info">
-                <h3>Muhamad Akbar Ramdani</h3>
-                <p class="job-title">Video Editor • Teknisi Komputer • Content Creator</p>
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">
-                    Lahir 2008 | 17 Tahun | Indonesia
-                </p>
-                <div class="profile-stats">
-                    <div class="stat">
-                        <span class="stat-number">17</span>
-                        <span>Umur</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">2+</span>
-                        <span>Tahun Pengalaman</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">50+</span>
-                        <span>Proyek Selesai</span>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="grid-2">
+        <div><div class="field-label">Type</div>
+          <select id="f-type"><option value="">Buy/Sell</option><option>Buy</option><option>Sell</option></select>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <h2 class="section-title">Tentang Saya</h2>
-        <div class="about-content">
-            <h3>Selamat datang di dunia kreatif Muhamad Akbar Ramdani</h3>
-            <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-muted);">
-                Saya adalah <strong>Video Editor berbakat</strong> berusia 17 tahun dengan pengalaman 2+ tahun di industri kreatif. 
-                Hobi editing video saya telah menghasilkan puluhan proyek berkualitas tinggi untuk berbagai klien.
-            </p>
-            <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-muted);">
-                Selain itu, saya juga <strong>Teknisi Komputer bersertifikat</strong> yang siap menangani perbaikan hardware dan software.
-                Cita-cita saya menjadi miliarder tidak menghentikan semangat belajar dan berkarya!
-            </p>
-            
-            <div class="about-features">
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <h4>Video/foto Editing</h4>
-                    <p>2024 - 2026 | capcut, Alight motion, Lightroom</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h4>Teknisi PC</h4>
-                    <p>2025 | Hardware, Software, Networking</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>Miliarder Mindset</h4>
-                    <p>Ambisi besar untuk kesuksesan finansial</p>
-                </div>
-            </div>
+        <div><div class="field-label">Lot Size</div><input id="f-lot" placeholder="0.01"></div>
+      </div>
+      <div class="grid-2">
+        <div><div class="field-label">Entry Price</div><input id="f-entry" placeholder="1.08450"></div>
+        <div><div class="field-label">Exit Price</div><input id="f-exit" placeholder="1.08620"></div>
+      </div>
+      <div class="grid-2">
+        <div><div class="field-label">Stop Loss</div><input id="f-sl" placeholder="1.08300"></div>
+        <div><div class="field-label">Take Profit</div><input id="f-tp" placeholder="1.08700"></div>
+      </div>
+      <div class="grid-2">
+        <div><div class="field-label">Hasil</div>
+          <select id="f-result"><option value="">Hasil</option><option>Win</option><option>Loss</option><option>Break Even</option></select>
         </div>
-    </section>
+        <div><div class="field-label">P&L (%)</div><input id="f-pnl" placeholder="+1.5 atau -0.8"></div>
+      </div>
+      <div><div class="field-label">Catatan Trade</div>
+        <textarea id="f-note" rows="2" placeholder="Setup, alasan entry, pelajaran..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;padding:14px" id="save-trade-btn" onclick="saveTrade()">Tambah Trade</button>
+    </div>
+  </div>
+</div>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="section">
-        <h2 class="section-title">Portofolio Terpilih</h2>
-        <div class="portfolio-grid">
-            <div class="portfolio-card">
-                <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Video Editing">
-                <div class="portfolio-info">
-                    <h4>Cinematic Video Editing</h4>
-                    <p class="portfolio-date">
-                        <i class="fas fa-calendar"></i> 2024 - 2026
-                    </p>
-                    <p>Editing video profesional dengan efek cinematic, color grading, dan motion graphics tingkat lanjut.</p>
-                </div>
-            </div>
-            <div class="portfolio-card">
-                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Computer Technician">
-                <div class="portfolio-info">
-                    <h4>Computer Technician Service</h4>
-                    <p class="portfolio-date">
-                        <i class="fas fa-calendar"></i> 2025
-                    </p>
-                    <p>Perbaikan lengkap komputer, laptop, dan server dengan garansi serta sertifikasi teknisi profesional.</p>
-                </div>
-            </div>
-            <div class="portfolio-card">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Motion Graphics">
-                <div class="portfolio-info">
-                    <h4>Motion Graphics & Animation</h4>
-                    <p class="portfolio-date">
-                        <i class="fas fa-calendar"></i> 2024 - 2025
-                    </p>
-                    <p>Animasi 2D/3D, logo animation, dan explainer video untuk branding perusahaan dan produk.</p>
-                </div>
-            </div>
+<!-- CONFIRM RESET OVERLAY -->
+<div class="overlay" id="reset-overlay" onclick="closeReset(event)">
+  <div class="sheet" style="max-height:45vh" onclick="event.stopPropagation()">
+    <div class="sheet-header">
+      <div class="sheet-title">Reset Jurnal?</div>
+      <button class="sheet-close" onclick="closeReset()">✕</button>
+    </div>
+    <p class="confirm-text">Semua data jurnal minggu ini akan dihapus permanen. Tindakan ini tidak bisa dibatalkan.</p>
+    <div class="confirm-btns">
+      <button class="btn-ghost" onclick="closeReset()">Batal</button>
+      <button class="btn-danger" onclick="doReset()">Reset Sekarang</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DAYS = ['Senin','Selasa','Rabu','Kamis','Jumat'];
+const MOODS = ['😤 Emosional','😰 Nervous','😐 Netral','😊 Fokus','🔥 On Fire'];
+const RULES = [
+  'Selalu pasang SL sebelum entry',
+  'Tidak overtrade (maks 5 trade/hari)',
+  'Tidak revenge trading setelah loss',
+  'Tidak hold posisi melewati jam 22:00',
+  'Stop trading setelah loss 2% hari ini'
+];
+const TARGET = 7.5, MAX_LOSS = 4;
+
+let activeDay = 0;
+let editIdx = null;
+
+function loadJournal() {
+  const saved = localStorage.getItem('fx_journal_v2');
+  if (saved) return JSON.parse(saved);
+  const j = {};
+  DAYS.forEach(d => j[d] = {trades:[],mood:'',discipline:3,notes:'',dailyPnl:0,checks:{}});
+  return j;
+}
+
+let journal = loadJournal();
+
+function save() {
+  localStorage.setItem('fx_journal_v2', JSON.stringify(journal));
+}
+
+function pnlColor(v) {
+  const n = parseFloat(v);
+  return n > 0 ? 'var(--green)' : n < 0 ? 'var(--red)' : '#aaa';
+}
+function pnlSign(v) { return parseFloat(v) > 0 ? '+' : ''; }
+function fmt(v) { return pnlSign(v) + parseFloat(v||0).toFixed(2) + '%'; }
+
+// --- STATS ---
+function calcStats() {
+  let total=0, wins=0, losses=0, pnl=0;
+  DAYS.forEach(d => {
+    const dd = journal[d];
+    if (!dd) return;
+    total += (dd.trades||[]).length;
+    wins += (dd.trades||[]).filter(t=>t.result==='Win').length;
+    losses += (dd.trades||[]).filter(t=>t.result==='Loss').length;
+    pnl += parseFloat(dd.dailyPnl||0);
+  });
+  return {total,wins,losses,pnl,wr: total>0 ? Math.round(wins/total*100) : 0};
+}
+
+function updateHeader() {
+  const s = calcStats();
+  const pnl = s.pnl;
+  document.getElementById('total-pnl-header').textContent = fmt(pnl);
+  document.getElementById('total-pnl-header').style.color = pnlColor(pnl);
+  document.getElementById('stat-total').textContent = s.total;
+  document.getElementById('stat-wr').textContent = s.wr + '%';
+  document.getElementById('stat-wr').style.color = s.wr >= 50 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('stat-w').textContent = s.wins;
+  document.getElementById('stat-l').textContent = s.losses;
+  // Progress bar
+  const markerPct = (MAX_LOSS / (TARGET + MAX_LOSS)) * 100;
+  document.getElementById('loss-marker').style.left = markerPct + '%';
+  const barPct = Math.min(100, Math.max(0, ((pnl + MAX_LOSS) / (TARGET + MAX_LOSS)) * 100));
+  const bar = document.getElementById('progress-bar');
+  bar.style.width = barPct + '%';
+  bar.style.background = pnl >= 0 ? 'linear-gradient(90deg,var(--green),var(--blue))' : 'linear-gradient(90deg,var(--red),#ff8c42)';
+}
+
+// --- DAY SELECTOR ---
+function renderDaySelector() {
+  const el = document.getElementById('day-selector');
+  el.innerHTML = '';
+  DAYS.forEach((d, i) => {
+    const dp = parseFloat(journal[d]?.dailyPnl||0);
+    const btn = document.createElement('button');
+    btn.className = 'day-btn' + (i === activeDay ? ' active' : '');
+    btn.innerHTML = d + (dp !== 0 ? ` <span style="font-size:10px;color:${pnlColor(dp)}">${fmt(dp)}</span>` : '');
+    btn.onclick = () => { activeDay = i; renderJournal(); };
+    el.appendChild(btn);
+  });
+}
+
+// --- MOOD ---
+function renderMood() {
+  const day = DAYS[activeDay];
+  const cur = journal[day]?.mood || '';
+  const el = document.getElementById('mood-row');
+  el.innerHTML = '';
+  MOODS.forEach(m => {
+    const btn = document.createElement('button');
+    btn.className = 'mood-btn' + (cur === m ? ' active' : '');
+    btn.textContent = m;
+    btn.onclick = () => { journal[day].mood = m; save(); renderMood(); };
+    el.appendChild(btn);
+  });
+}
+
+// --- STARS ---
+function renderStars() {
+  const day = DAYS[activeDay];
+  const disc = journal[day]?.discipline || 3;
+  document.getElementById('disc-val').textContent = disc;
+  const el = document.getElementById('stars-row');
+  el.innerHTML = '';
+  for (let s = 1; s <= 5; s++) {
+    const btn = document.createElement('button');
+    btn.className = 'star-btn';
+    btn.innerHTML = `<span style="filter:${s<=disc?'none':'grayscale(1)'}">⭐</span>`;
+    btn.onclick = () => { journal[day].discipline = s; save(); renderStars(); };
+    el.appendChild(btn);
+  }
+}
+
+// --- TRADES ---
+function renderTrades() {
+  const day = DAYS[activeDay];
+  const trades = journal[day]?.trades || [];
+  document.getElementById('day-name-label').textContent = day;
+  document.getElementById('trade-count').textContent = trades.length;
+  const list = document.getElementById('trade-list');
+  list.innerHTML = '';
+  if (trades.length === 0) {
+    list.innerHTML = '<div class="empty">Belum ada trade hari ini</div>';
+    document.getElementById('daily-pnl-row').style.display = 'none';
+    return;
+  }
+  trades.forEach((t, i) => {
+    const item = document.createElement('div');
+    item.className = 'trade-item';
+    const typeClass = t.type === 'Buy' ? 'pill-buy' : 'pill-sell';
+    const resClass = t.result === 'Win' ? 'pill-win' : t.result === 'Loss' ? 'pill-loss' : 'pill-be';
+    item.innerHTML = `
+      <div class="trade-header">
+        <div class="trade-left">
+          <div class="pair">${t.pair||'—'}<span class="pill ${typeClass}">${t.type||''}</span>${t.result?`<span class="pill ${resClass}">${t.result}</span>`:''}</div>
+          <div class="trade-meta">${t.session||''} · Lot: ${t.lot||'—'}</div>
+          ${t.note?`<div class="trade-note">${t.note}</div>`:''}
         </div>
-    </section>
-
-    <!-- Favorites Section - MOBIL DENGAN GAMBAR ASLI -->
-    <section id="favorites" class="section">
-        <h2 class="section-title">Koleksi Supercar Favorit</h2>
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
-                Ketiga supercar impian saya yang menginspirasi semangat untuk meraih kesuksesan besar
-            </p>
+        <div class="trade-right">
+          <div class="trade-pnl" style="color:${pnlColor(t.pnl)}">${pnlSign(t.pnl)}${t.pnl||'0'}%</div>
+          <div class="trade-actions">
+            <button class="btn-ghost" onclick="editTrade(${i})">Edit</button>
+            <button class="btn-ghost" onclick="deleteTrade(${i})">✕</button>
+          </div>
         </div>
-        <div class="favorites-grid">
-            <div class="favorite-card">
-                <img src="https://i.imgur.com/H8UESbg.jpeg=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BMW M4 F82" class="favorite-image">
-                <div class="favorite-overlay">
-                    <h4>BMW M4 F82</h4>
-                    <p><strong>Performa Brutal</strong><br>3.0L TwinPower Turbo, 425 HP<br>0-100 km/jam: 4.1 detik<br>Desain agresif & handling presisi</p>
-                </div>
-            </div>
-            <div class="favorite-card">
-                <img src="https://i.imgur.com/XHIVMc4.jpeg=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ferrari SF90" class="favorite-image">
-                <div class="favorite-overlay">
-                    <h4>Ferrari SF90 Stradale</h4>
-                    <p><strong>Hybrid Supercar</strong><br>4.0L V8 Twin-Turbo + Motor Listrik<br>1.000 HP Total<br>Teknologi hybrid masa depan</p>
-                </div>
-            </div>
-            <div class="favorite-card">
-                <img src="https://i.imgur.com/vr3rwBg.jpeg=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Porsche 918 Spyder" class="favorite-image">
-                <div class="favorite-overlay">
-                    <h4>Porsche 918 Spyder</h4>
-                    <p><strong>Hypercar Legendaris</strong><br>4.6L V8 + 2 Motor Listrik<br>887 HP | 0-100: 2.6 detik<br>Pemenang Nürburgring</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      </div>
+      ${(t.entry||t.exit||t.sl||t.tp)?`<div class="trade-prices">
+        ${t.entry?`<span>Entry <b>${t.entry}</b></span>`:''}
+        ${t.exit?`<span>Exit <b>${t.exit}</b></span>`:''}
+        ${t.sl?`<span>SL <b style="color:var(--red)">${t.sl}</b></span>`:''}
+        ${t.tp?`<span>TP <b style="color:var(--green)">${t.tp}</b></span>`:''}
+      </div>`:''}
+    `;
+    list.appendChild(item);
+  });
+  const dp = parseFloat(journal[day]?.dailyPnl||0);
+  const row = document.getElementById('daily-pnl-row');
+  row.style.display = 'flex';
+  document.getElementById('daily-pnl-val').textContent = fmt(dp);
+  document.getElementById('daily-pnl-val').style.color = pnlColor(dp);
+}
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <h2 class="section-title">Mari Berkolaborasi</h2>
-        <div class="contact-content">
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <h4>Email Pribadi</h4>
-                        <p>akbarramdani0403@gmail.com</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                        <h4>Telepon</h4>
-                        <p>+62 831-1609-8203</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <h4>Lokasi</h4>
-                        <p>Indonesia</p>
-                    </div>
-                </div>
-            </div>
-            <div style="background: var(--card-bg); padding: 3rem; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
-                <h3 style="margin-bottom: 1rem; color: var(--light-blue);">Siap Memulai Proyek?</h3>
-                <p style="margin-bottom: 2rem; color: var(--text-muted);">Dari editing video hingga service komputer, saya siap membantu mewujudkan visi Anda!</p>
-                <a href="mailto:akbarramdani0403@gmail.com?subject=Proposal%20Kolaborasi" class="cta-button" style="width: 100%; text-align: center;">Mulai Diskusi Proyek</a>
-            </div>
-        </div>
-    </section>
+// --- NOTES ---
+function renderNotes() {
+  const day = DAYS[activeDay];
+  const el = document.getElementById('day-notes');
+  el.value = journal[day]?.notes || '';
+  el.oninput = () => { journal[day].notes = el.value; save(); };
+}
 
-    <script>
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-            // Scroll progress
-            const scrollProgress = document.querySelector('.scroll-progress');
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.body.scrollHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            scrollProgress.style.width = scrollPercent + '%';
-        });
+// --- CHECKLIST ---
+function renderChecklist() {
+  const day = DAYS[activeDay];
+  const el = document.getElementById('checklist');
+  el.innerHTML = '';
+  RULES.forEach((rule, i) => {
+    const checked = journal[day]?.checks?.[i] || false;
+    const item = document.createElement('div');
+    item.className = 'check-item' + (checked ? ' checked' : '');
+    item.innerHTML = `
+      <div class="check-box ${checked?'checked':''}"><span class="check-tick">✓</span></div>
+      <span class="check-label">${rule}</span>
+    `;
+    item.onclick = () => {
+      if (!journal[day].checks) journal[day].checks = {};
+      journal[day].checks[i] = !journal[day].checks[i];
+      save();
+      renderChecklist();
+    };
+    el.appendChild(item);
+  });
+}
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
+// --- RENDER JOURNAL ---
+function renderJournal() {
+  renderDaySelector();
+  renderMood();
+  renderStars();
+  renderTrades();
+  renderNotes();
+  renderChecklist();
+  updateHeader();
+}
 
-        // Floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.width = Math.random() * 4 + 2 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animationDuration = (Math.random() * 20 + 20) + 's';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
+// --- TRADE FORM ---
+function openTradeForm(idx=null) {
+  editIdx = idx;
+  const day = DAYS[activeDay];
+  const fields = ['pair','session','type','lot','entry','exit','sl','tp','result','pnl','note'];
+  if (idx !== null) {
+    const t = journal[day].trades[idx];
+    fields.forEach(f => document.getElementById('f-'+f).value = t[f]||'');
+    document.getElementById('form-title').textContent = 'Edit Trade';
+    document.getElementById('save-trade-btn').textContent = 'Simpan Perubahan';
+  } else {
+    fields.forEach(f => document.getElementById('f-'+f).value = '');
+    document.getElementById('form-title').textContent = 'Tambah Trade';
+    document.getElementById('save-trade-btn').textContent = 'Tambah Trade';
+  }
+  document.getElementById('trade-overlay').classList.add('open');
+}
 
-        // Typing effect
-        const subtitle = document.querySelector('.subtitle');
-        const text = subtitle.textContent;
-        subtitle.textContent = '';
-        let i = 0;
-        function typeWriter() {
-            if (i < text.length) {
-                subtitle.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 80);
-            }
-        }
-        window.addEventListener('load', () => {
-            createParticles();
-            typeWriter();
-        });
-    </script>
+function closeTradeForm(e) {
+  if (!e || e.target === document.getElementById('trade-overlay')) {
+    document.getElementById('trade-overlay').classList.remove('open');
+  }
+}
+
+function editTrade(i) { openTradeForm(i); }
+
+function saveTrade() {
+  const day = DAYS[activeDay];
+  const t = {
+    pair: document.getElementById('f-pair').value,
+    session: document.getElementById('f-session').value,
+    type: document.getElementById('f-type').value,
+    lot: document.getElementById('f-lot').value,
+    entry: document.getElementById('f-entry').value,
+    exit: document.getElementById('f-exit').value,
+    sl: document.getElementById('f-sl').value,
+    tp: document.getElementById('f-tp').value,
+    result: document.getElementById('f-result').value,
+    pnl: document.getElementById('f-pnl').value,
+    note: document.getElementById('f-note').value,
+  };
+  const trades = [...(journal[day].trades||[])];
+  if (editIdx !== null) trades[editIdx] = t;
+  else trades.push(t);
+  const dp = trades.reduce((s,tr)=>s+(parseFloat(tr.pnl)||0),0);
+  journal[day].trades = trades;
+  journal[day].dailyPnl = dp;
+  save();
+  closeTradeForm();
+  renderJournal();
+}
+
+function deleteTrade(i) {
+  const day = DAYS[activeDay];
+  journal[day].trades.splice(i,1);
+  journal[day].dailyPnl = journal[day].trades.reduce((s,t)=>s+(parseFloat(t.pnl)||0),0);
+  save();
+  renderJournal();
+}
+
+// --- SUMMARY ---
+function renderSummary() {
+  const s = calcStats();
+  document.getElementById('s-pnl').textContent = fmt(s.pnl);
+  document.getElementById('s-pnl').style.color = pnlColor(s.pnl);
+  document.getElementById('s-wr').textContent = s.wr + '%';
+  document.getElementById('s-wr').style.color = s.wr >= 50 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('s-total').textContent = s.total;
+  document.getElementById('s-wl').textContent = s.wins + ' / ' + s.losses;
+
+  const box = document.getElementById('status-box');
+  const txt = document.getElementById('status-text');
+  if (s.pnl >= TARGET) {
+    box.style.border = '1px solid var(--green)'; box.style.background = 'rgba(0,229,160,.05)';
+    txt.style.color = 'var(--green)'; txt.textContent = '🎯 TARGET TERCAPAI!';
+  } else if (s.pnl <= -MAX_LOSS) {
+    box.style.border = '1px solid var(--red)'; box.style.background = 'rgba(255,77,109,.05)';
+    txt.style.color = 'var(--red)'; txt.textContent = '⛔ MAX LOSS HIT — STOP TRADING MINGGU INI';
+  } else {
+    box.style.border = '1px solid var(--border)'; box.style.background = 'var(--surface2)';
+    txt.style.color = 'var(--yellow)'; txt.textContent = `📈 Progress: ${s.pnl.toFixed(2)}% dari ${TARGET}% target`;
+  }
+
+  const bd = document.getElementById('daily-breakdown');
+  bd.innerHTML = '';
+  DAYS.forEach((d,i) => {
+    const dd = journal[d]||{};
+    const dp = parseFloat(dd.dailyPnl||0);
+    const dt = (dd.trades||[]).length;
+    const dw = (dd.trades||[]).filter(t=>t.result==='Win').length;
+    const row = document.createElement('div');
+    row.className = 'day-row';
+    row.innerHTML = `
+      <div>
+        <div class="name">${d}</div>
+        <div class="info">${dt} trade · ${dw} win${dd.mood?' · '+dd.mood:''}</div>
+      </div>
+      <div class="pnl" style="color:${pnlColor(dp)}">${dp!==0?fmt(dp):'—'}</div>
+    `;
+    bd.appendChild(row);
+  });
+}
+
+// --- TABS ---
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (i===0&&tab==='journal')||(i===1&&tab==='summary')));
+  document.getElementById('page-journal').classList.toggle('active', tab==='journal');
+  document.getElementById('page-summary').classList.toggle('active', tab==='summary');
+  if (tab === 'summary') renderSummary();
+}
+
+// --- RESET ---
+function confirmReset() { document.getElementById('reset-overlay').classList.add('open'); }
+function closeReset(e) {
+  if (!e || e.target === document.getElementById('reset-overlay'))
+    document.getElementById('reset-overlay').classList.remove('open');
+}
+function doReset() {
+  DAYS.forEach(d => journal[d] = {trades:[],mood:'',discipline:3,notes:'',dailyPnl:0,checks:{}});
+  save(); closeReset(); renderJournal(); renderSummary();
+}
+
+// --- INIT ---
+renderJournal();
+</script>
 </body>
 </html>
